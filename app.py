@@ -37,4 +37,21 @@ def add_cupcake():
     rating = request.json["rating"]
     image = request.json["image"]
     id = Cupcake.create_cupcake(flavor,size,rating,image)
+    return (jsonify(cupcake=Cupcake.query.get_or_404(id).serialize()), 201)
+
+@app.route("/api/cupcakes/<cupcake_id>", methods=["PATCH"])
+def update_cupcake(cupcake_id):
+    cupcake = Cupcake.query.get_or_404(cupcake_id)
+    flavor = request.json.get('flavor', cupcake.flavor)
+    size = request.json.get('size', cupcake.size)
+    rating = request.json.get('rating', cupcake.rating)
+    image = request.json.get('image', cupcake.image)
+    id = cupcake.update_cupcake(flavor,size,rating,image)
     return jsonify(cupcake=Cupcake.query.get_or_404(id).serialize())
+
+@app.route("/api/cupcakes/<cupcake_id>", methods=["DELETE"])
+def delete_cupcake(cupcake_id):
+    cupcake = Cupcake.query.get_or_404(cupcake_id)
+    id = cupcake.delete_cupcake()
+
+    return jsonify(message="Deleted")

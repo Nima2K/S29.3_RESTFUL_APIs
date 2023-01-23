@@ -27,7 +27,20 @@ class Cupcake(db.Model):
         db.session.commit()
         return new.id
 
-
+    def update_cupcake(self,f,s,r,i):
+        self.flavor=f
+        self.size=s
+        self.rating=r
+        self.image=i
+        db.session.commit()
+        return self.id
+    
+    def delete_cupcake(self):
+        id = self.id
+        db.session.delete(self)
+        db.session.commit()
+        return id
+        
     ___tablename___="cupcakes"
     id = db.Column(db.Integer, primary_key=True, autoincrement=True)
     flavor = db.Column(db.String, nullable=False)
